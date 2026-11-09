@@ -1,0 +1,10 @@
+{
+  "name": "adlc",
+  "version": "0.1.0",
+  "description": "Developer lifecycle skills: brainstorm, research, PM, implement, PR review, diagnose, prototype and repo setup.",
+  "author": { "name": "NunoMotaRicardo" },
+  "homepage": "https://github.com/NunoMotaRicardo/nmr-adlc",
+  "repository": "https://github.com/NunoMotaRicardo/nmr-adlc",
+  "license": "UNLICENSED",
+  "keywords": ["sdlc", "skills", "pm", "implementation", "review"]
+}

@@ -1,0 +1,95 @@
+# .sdlc/sdlc-config.yml — per-repo configuration read by the developer-lifecycle skills
+# (pm, implement, pr-review, prototype). One lives in EVERY repo the skills run against,
+# at the repo root (`git rev-parse --show-toplevel` — in a worktree, that is the worktree).
+# Skills take every value from here and never hardcode identifiers: edit this file, not the skills.
+#
+# Legend:  [REQUIRED] skills stop or misbehave without it
+#          [OPTIONAL] safe to omit; the noted behaviour applies instead
+#
+# Reference: docs/sdlc-contract.md in the plugin.
+
+# --- Repository ---------------------------------------------------------------
+# [REQUIRED] Branch worktrees are cut from and PRs target. Check: git symbolic-ref --short refs/remotes/origin/HEAD
+default_branch: main
+
+github:
+  # [REQUIRED] Used by every `gh` call (pm, implement, pr-review).
+  owner: "<owner>"            # user or organisation
+  repository: "<repo>"
+  slug: "<owner>/<repo>"      # "<owner>/<repo>" — the form used in `gh api repos/<slug>/...`
+
+  # [OPTIONAL] GitHub Project (v2) board. If this whole block is absent, every board move in
+  # pm and implement is skipped silently and only issues are used.
+  # Find the ids with:   gh project field-list <number> --owner <owner> --format json
+  # Needs token scopes:  gh auth refresh -s read:project -s write:project
+  # A shared board across several repos is fine: copy this block verbatim into each repo's file.
+  # project:
+  #   number: 1                         # the board number in its URL: .../projects/<number>
+  #   id: "<PVT_...>"                   # project node id (gh project list --owner <owner> --format json)
+  #   status_field_id: "<PVTSSF_...>"   # id of the "Status" single-select field
+  #   statuses:                         # option ids of that field, one per status the skills move to
+  #     backlog: "<option-id>"
+  #     ready: "<option-id>"
+  #     in_progress: "<option-id>"
+  #     in_review: "<option-id>"
+  #     done: "<option-id>"
+
+# --- Implementation loop (/implement, also read by /pm) ----------------------------
+# [REQUIRED for /implement]
+implement:
+  # Per-issue worktree path and branch name. `{issue}` = issue number, `{slug}` = short kebab-case title.
+  # The path is relative to the repo root; add its parent (e.g. `.worktrees/`) to .gitignore.
+  worktree_path: ".worktrees/issue-{issue}"
+  branch: "issue-{issue}-{slug}"
+  # Feasibility gate: one vertical slice must fit within this many changed lines, tests included.
+  # /pm also slices issues to this size.
+  max_changed_loc: 500
+
+# --- Prototype (/prototype) --------------------------------------------------------
+# [REQUIRED for /prototype] Throwaway code that answers one design question; never merges.
+prototype:
+  worktree_path: ".worktrees/prototype-{slug}"
+  branch: "prototype-{slug}"
+
+# --- Review ------------------------------------------------------------------------
+# [OPTIONAL] Used by the PR feedback loop in /implement.
+review:
+  # Logins of automated reviewers whose PR comments are triaged. A commenting bot not listed here
+  # is still triaged, and the skill offers to add it.
+  bots: []                    # e.g. ["Copilot", "coderabbitai[bot]"]
+
+# --- Quality gates -----------------------------------------------------------------
+# [REQUIRED for /implement] Commands run verbatim, from the repo root, by the coder and reviewer
+# subagents before every commit/PR. Use the SAME commands CI runs so local and CI cannot disagree.
+# Omit a key (or use `quality_gates: {}`) when the repo has no such gate — e.g. a docs-only repo.
+# Keys the skills read: test, lint, format_check, type_check. Dependency install belongs in
+# .sdlc/tooling.md, not here.
+quality_gates:
+  test: ""                    # see examples below
+  lint: ""
+  format_check: ""
+  type_check: ""
+  # security: ""              # not read by the skills (SAST is left to CI); keep it here only as documentation
+  #
+  # Examples by ecosystem:
+  #   Python (uv):   test: "uv run pytest -q"            lint: "uv run ruff check ."
+  #                  format_check: "uv run ruff format --check ."   type_check: "uv run mypy ."
+  #   Node (npm):    test: "npm test --silent"           lint: "npm run lint"
+  #                  format_check: "npx prettier --check ."          type_check: "npx tsc --noEmit"
+  #   Go:            test: "go test ./..."               lint: "golangci-lint run"
+  #                  format_check: "test -z \"$(gofmt -l .)\""        type_check: "go vet ./..."
+  #   Rust:          test: "cargo test"                  lint: "cargo clippy -- -D warnings"
+  #                  format_check: "cargo fmt --check"               type_check: "cargo check"
+  #   Java (Maven):  test: "mvn -q test"                 lint: "mvn -q checkstyle:check"
+  #                  format_check: "mvn -q spotless:check"           type_check: "mvn -q compile"
+  #   .NET:          test: "dotnet test"                 format_check: "dotnet format --verify-no-changes"
+  #                  type_check: "dotnet build --no-restore"
+
+# --- Wiki sync ---------------------------------------------------------------------
+# [OPTIONAL] `wiki/` is the home for all documentation (owned by /pm). These keys describe whether
+# it is mirrored to the GitHub wiki; no skill reads them — they document the setup for humans and
+# for the wiki-sync workflow (templates/sdlc/wiki-sync.yml -> .github/workflows/wiki-sync.yml).
+wiki_sync:
+  enabled: false
+  source_path: "wiki"
+  workflow_path: ".github/workflows/wiki-sync.yml"

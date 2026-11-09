@@ -1,0 +1,35 @@
+# .sdlc/repos.yml — OPTIONAL multi-repo manifest. Create it only in an umbrella/docs-home repo
+# whose issues are filed in OTHER (sibling) repositories. Absent = single-repo mode: the current
+# repo is both the docs home and the only issue target.
+#
+# Read by /pm for issue routing. Do not leave stale entries: a wrong entry silently misroutes issues.
+# Each target repo keeps its own .sdlc/sdlc-config.yml, which /pm reads for every `gh` identifier;
+# /pm never falls back to the umbrella's config.
+#
+# Fields per entry:
+#   name       short name of the repo
+#   owner      GitHub owner
+#   clone_url  where to clone it from
+#   path       checkout directory, resolved as a SIBLING of this umbrella checkout (../<path>).
+#              /pm fails loudly if that checkout is missing — clone it first.
+#   role       application — issues can be filed and PRs opened here; /pm routes to these only
+#              tooling     — needed for the workflow to run (e.g. the repo holding the skills);
+#                            never routed to, no issue is ever filed against it
+#   notes      free text (optional)
+#
+# List the umbrella itself as an `application` entry if issues are also filed against it.
+
+repos:
+  - name: <repo>
+    owner: <owner>
+    clone_url: https://github.com/<owner>/<repo>.git
+    path: <repo>
+    role: application
+    notes: >-
+      One line on what this repo is.
+
+  # - name: <tooling-repo>
+  #   owner: <owner>
+  #   clone_url: https://github.com/<owner>/<tooling-repo>.git
+  #   path: <tooling-repo>
+  #   role: tooling
