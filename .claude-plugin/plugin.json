@@ -5,6 +5,6 @@
   "author": { "name": "NunoMotaRicardo" },
   "homepage": "https://github.com/NunoMotaRicardo/nmr-adlc",
   "repository": "https://github.com/NunoMotaRicardo/nmr-adlc",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "keywords": ["sdlc", "skills", "pm", "implementation", "review"]
 }

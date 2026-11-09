@@ -55,3 +55,7 @@ Everything repo-specific lives in the target repo's `.sdlc/` folder, never in th
 Contributions are welcome: bug reports, ideas, and pull requests, especially for other AI tools and other ecosystems. Please open an issue first for anything large. Ground rules are in [`AGENTS.md`](AGENTS.md): keep skills tool-neutral, keep repo-specific values out of the skills, and keep the templates and the contract doc in sync with the config keys the skills read.
 
 More documentation is on the [wiki](https://github.com/NunoMotaRicardo/nmr-adlc/wiki).
+
+## License
+
+[MIT](LICENSE)
