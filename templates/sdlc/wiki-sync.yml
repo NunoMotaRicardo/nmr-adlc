@@ -1,7 +1,9 @@
 name: Sync wiki
 
-# Mirrors the wiki/ folder to the GitHub wiki of this repo.
-# Install as .github/workflows/wiki-sync.yml.
+# Mirrors the user-docs folder to the GitHub wiki of this repo.
+# Install as .github/workflows/wiki-sync.yml. `wiki` below is the default user-docs folder
+# (`user_docs` in .sdlc/repo-structure.md): if the repo uses another, change it in the `paths`
+# filter and the `rsync` source.
 # One-time setup: enable Wikis in repo settings and create a first page by hand,
 # otherwise the <repo>.wiki.git repository does not exist yet.
 on:
@@ -27,7 +29,7 @@ jobs:
         run: |
           git clone "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git" "$RUNNER_TEMP/wiki"
 
-      - name: Mirror wiki/ (deletions included)
+      - name: Mirror the user-docs folder (deletions included)
         run: rsync -a --delete --exclude '.git' wiki/ "$RUNNER_TEMP/wiki/"
 
       - name: Commit and push

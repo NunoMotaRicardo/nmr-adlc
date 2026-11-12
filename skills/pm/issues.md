@@ -14,7 +14,7 @@ Before creating a new parent, scan open issues for one whose scope already cover
 Parent + sub-issue structure is a **recommendation**. Use it where it adds clarity; a flat set of issues with no meaningful grouping is fine as it is.
 
 ## 1. Read and audit
-Read the relevant `specs/` (target repo, root-level, if present) and `wiki/product/` files, then audit the codebase for what already exists. A repo with no `specs/` directory at all (e.g. one with no implementation loop) isn't an error — proceed on `wiki/` and the code alone and say so in the issue's Technical Notes.
+Read the relevant `<specs>/` (target repo, if present) and `<pm_docs>/product/` files, then audit the codebase for what already exists. A repo with no `<specs>/` directory at all (e.g. one with no implementation loop) isn't an error — proceed on `<pm_docs>/` and the code alone and say so in the issue's Technical Notes.
 
 ## 2. Cut vertical slices
 

@@ -1,12 +1,12 @@
 # Plan — maintain a plan
 
-A plan is a set of work items that share one goal, start diffuse, and **mature** — each one advancing by a single **next step** at a time until it's ready to build. You own every file under `wiki/plans/`; nothing else writes there.
+A plan is a set of work items that share one goal, start diffuse, and **mature** — each one advancing by a single **next step** at a time until it's ready to build. You own every file under `<pm_docs>/plans/`; nothing else writes there.
 
 You don't do the work of a next step yourself. You choose it, dispatch it, record what comes back, and re-read the plan in light of it. `write-document` and `create-issues` are the exception — those next steps are your own workflows (`synthesize.md`, `issues.md`), not a dispatch elsewhere.
 
 ## The plan folder
 
-One folder per plan: `wiki/plans/<NN>-<slug>/`, where `<NN>` is the next immutable repository-wide two-digit sequence number — scan existing folders for the highest before assigning. (`wiki/plans/_ideas-archive/` folders are historical; leave them.)
+One folder per plan: `<pm_docs>/plans/<NN>-<slug>/`, where `<NN>` is the next immutable repository-wide two-digit sequence number — scan existing folders for the highest before assigning. (`<pm_docs>/plans/_ideas-archive/` folders are historical; leave them.)
 
 **`0-plan_map.md`** — the permanently readable index. Header block with plan **Status** (`active`, `parked`, `complete`), **Date**, and a one-paragraph **Summary** of the goal. Then a table:
 
@@ -49,7 +49,7 @@ Propose which item to advance and its next step, with the reason. On the user's 
 - **write-document / create-issues** — follow the named workflow file yourself; there's nothing to dispatch or wait for.
 
 ### 3. Record what came back
-Append it to the item's detail file under a dated heading — the findings themselves, not a summary of them, with whatever sources or evidence came with them. For `write-document`, record which `wiki/` files you wrote or updated. For `create-issues`, record the issue numbers and their one-line summaries. Then update the map: the item's **Next step** becomes whatever the result now makes it, and its **Status** gains a line of history.
+Append it to the item's detail file under a dated heading — the findings themselves, not a summary of them, with whatever sources or evidence came with them. For `write-document`, record which `<pm_docs>/` files you wrote or updated. For `create-issues`, record the issue numbers and their one-line summaries. Then update the map: the item's **Next step** becomes whatever the result now makes it, and its **Status** gains a line of history.
 
 ### 4. Re-read the plan in light of it
 Work items in one plan share a goal, so they move each other. Before closing the loop, walk **every other item** and ask what this result changed: a fact that settles someone else's open question, a diagnosis that makes another item unnecessary, a decision that creates a new dependency, a prototype verdict that reshapes a sibling's scope, a doc that already answers a sibling's question. Update every item the result touched — each one either revised or explicitly confirmed untouched. This is the step that keeps a plan coherent rather than a list of parallel monologues; skipping it lets the map drift out of step with its own detail files.
@@ -64,8 +64,8 @@ Plans are **active** from creation. **Parked** when no item is currently being a
 A completed work item keeps its history in Status — issue numbers, PRs, merges, outcomes. When the last one lands, set the plan's Status to `complete` and say so: the plan is **retired**, its detail files stay as the record of how each decision was reached.
 
 ## Rules
-- Every file under `wiki/plans/` is written by you and only you. The activity skills return findings; you record them.
-- `wiki/_Sidebar.md` navigation: opening or retiring a plan needs its sidebar entry added or its status changed — you own that file too (see `SKILL.md`), so do it in the same pass rather than deferring to yourself later.
+- Every file under `<pm_docs>/plans/` is written by you and only you. The activity skills return findings; you record them.
+- `<pm_docs>/_Sidebar.md` navigation: opening or retiring a plan needs its sidebar entry added or its status changed — you own that file too (see `SKILL.md`), so do it in the same pass rather than deferring to yourself later.
 - A work item earns a detail file when it receives substantive work, not before.
 - One next step at a time per item. An item with two next steps is two work items.
 - In multi-repo mode, reference cross-repo issues using `owner/repo#N` format (e.g. `owner/repo#12`). Bare `#N` format remains legal only within the repository owning the issue.

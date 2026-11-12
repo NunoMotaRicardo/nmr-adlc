@@ -18,7 +18,7 @@ idea ─▶ brainstorm ─▶ research / prototype / diagnose ─▶ pm ─▶ i
 | `research` | Investigates a question against primary sources and returns cited findings. |
 | `prototype` | Builds throwaway code to answer a design question, keeps the answer, deletes the code. |
 | `diagnose` | Finds the cause of a defect or anomaly when the mechanism isn't known. |
-| `pm` | Owns the backlog and its docs: keeps a plan up to date, writes it up in `wiki/`, slices it into GitHub issues, and reconciles after merges. |
+| `pm` | Owns the backlog and its docs: keeps a plan up to date, writes it up in the planning docs, slices it into GitHub issues, and reconciles after merges. |
 | `implement` | Takes one issue (or a batch) to a merge-ready PR: a feasibility gate, a coder, a reviewer (max 3 rounds), then drives every review comment to resolved. |
 | `pr-review` | Reviews changes against the repo's standards and its specs and posts one real GitHub PR review with inline comments. |
 | `setup` | Creates the repo-side configuration the other skills read. Run it once per repo. |
@@ -41,14 +41,21 @@ The skills are plain Agent Skills (`skills/<name>/SKILL.md`), so any tool that r
 ## Getting started
 
 1. Install the plugin.
-2. In your repo, run the `setup` skill. It detects your default branch, GitHub owner and repo, and test/lint/type-check commands, asks you to confirm them, and writes a `.sdlc/` folder.
+2. In your repo, run the `setup` skill. It detects your default branch, GitHub owner and repo, and test/lint/type-check commands, asks where your docs live, asks you to confirm everything, and writes a `.sdlc/` folder. In an existing repo it looks at the folders you already have and proposes how to adapt them.
 3. Start with `brainstorm`, or open a plan with `pm`.
 
 Requirements: `git` and an authenticated [`gh`](https://cli.github.com/). The optional project board needs the `read:project` and `write:project` token scopes (`gh auth refresh -s read:project -s write:project`).
 
 ## How it is configured
 
-Everything repo-specific lives in the target repo's `.sdlc/` folder, never in the skills: GitHub identifiers, branch and worktree conventions, quality-gate commands, and an optional project board. A single repo works out of the box; an optional `repos.yml` lets one planning repo route issues to several application repos. See [`docs/sdlc-contract.md`](docs/sdlc-contract.md) for the full reference and [`templates/sdlc/`](templates/sdlc/) for the templates.
+Everything repo-specific lives in the target repo's `.sdlc/` folder, never in the skills: GitHub identifiers, branch and worktree conventions, quality-gate commands, an optional project board, and three documentation folders:
+
+| Folder | Default | Holds |
+|---|---|---|
+| Technical specs | `specs/` | Contracts, schemas and invariants, updated with the code |
+| Planning docs | `docs/` | Plans, product docs, decision records, architecture docs, owned by `pm` |
+| User docs | `wiki/` | How to install, configure and use the software; optionally mirrored to the GitHub wiki |
+ A single repo works out of the box; an optional `repos.yml` lets one planning repo route issues to several application repos. See [`docs/sdlc-contract.md`](docs/sdlc-contract.md) for the full reference and [`templates/sdlc/`](templates/sdlc/) for the templates.
 
 ## Contributing
 

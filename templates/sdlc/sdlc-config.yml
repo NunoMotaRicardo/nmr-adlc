@@ -86,9 +86,10 @@ quality_gates:
   #                  type_check: "dotnet build --no-restore"
 
 # --- Wiki sync ---------------------------------------------------------------------
-# [OPTIONAL] `wiki/` is the home for all documentation (owned by /pm). These keys describe whether
-# it is mirrored to the GitHub wiki; no skill reads them — they document the setup for humans and
-# for the wiki-sync workflow (templates/sdlc/wiki-sync.yml -> .github/workflows/wiki-sync.yml).
+# [OPTIONAL] Whether the user-docs folder (`user_docs` in .sdlc/repo-structure.md, default `wiki`) is
+# mirrored to the GitHub wiki. No skill reads these keys — they document the setup for humans and for
+# the wiki-sync workflow (templates/sdlc/wiki-sync.yml -> .github/workflows/wiki-sync.yml).
+# `source_path` must equal the `user_docs` folder; change both together.
 wiki_sync:
   enabled: false
   source_path: "wiki"

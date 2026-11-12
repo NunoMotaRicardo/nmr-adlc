@@ -10,6 +10,8 @@ description: >
 
 Answer one question from **primary sources**, and cite every claim. What you return goes to `/pm`, which records it in the work item's detail file — you write no files yourself.
 
+Folder names: `<specs>`, `<pm_docs>` and `<user_docs>` are the repo's folders from the **Folders** table in `.sdlc/repo-structure.md` (defaults `specs`, `docs`, `wiki`; a value may be `none`). If that table is missing, use `specs`, `wiki`, `none` and suggest running the `setup` skill.
+
 Spin the reading up as a **background agent** so the user keeps working while it reads.
 
 ## The question
@@ -21,7 +23,7 @@ One question, stated in a sentence before any reading starts. A research pass wi
 Follow every claim back to the source that owns it:
 - **Library or API behavior** → its source code and official docs, at the version this repo pins in `pyproject.toml`/`uv.lock`. A blog post describing yfinance's behavior is not evidence of yfinance's behavior.
 - **A data format or provider's semantics** → the provider's own documentation, plus a real sample pulled from the actual store or endpoint.
-- **This repo's behavior** → the code, its `specs/*.md` contracts (root-level, code-bearing repos only), and git history. Not a document describing the code — the code.
+- **This repo's behavior** → the code, its `<specs>/*.md` contracts, and git history. Not a document describing the code — the code.
 - **Standards and specs** → the spec text itself.
 
 A claim you can only support from a secondary write-up gets reported **as** secondhand, flagged, with the primary source you couldn't reach. That flag is the finding — a confident claim resting on a blog post is how a plan matures on a false fact.

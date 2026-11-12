@@ -13,6 +13,8 @@ description: >
 
 You are the **orchestrator**, in the main thread. You drive one GitHub issue to a merge-ready PR by delegating to two subagent roles (a fresh-context subagent each where your tool supports it; otherwise separate inline phases). You delegate, gate, and report — the code and tests are theirs to write.
 
+Folder names: `<specs>`, `<pm_docs>` and `<user_docs>` are the repo's folders from the **Folders** table in `.sdlc/repo-structure.md` (defaults `specs`, `docs`, `wiki`; a value may be `none`). If that table is missing, use `specs`, `wiki`, `none` and suggest running the `setup` skill.
+
 **The briefs** live beside this file: `coder.md` and `reviewer.md` for the subagents (you pass a subagent the absolute path and tell it to follow that file — you never read them yourself), and `pr-feedback.md`, which you read yourself at step 8.
 
 **More than one issue in the input** — a range, a list, or a set description — is **batch mode**. Read `batch.md` beside this file and follow it: it plans the set, resolves the dependency order, and runs the loop below once per issue in one shared worktree, ending in one PR. The rest of this file still binds; `batch.md` only says what differs.
@@ -50,7 +52,7 @@ An issue number (from `$ARGUMENTS`, e.g. `/implement 7`); if missing, list open 
 ## Loop
 
 ### 1. Feasibility & scoping gate
-Audit the issue yourself against the current codebase — read the issue, the specs it references, and the affected code (its location is documented in the target repo's own `.sdlc/repo-structure.md`; read that first if unsure). Is it one vertical slice within `implement.max_changed_loc` including tests? Are the Acceptance Criteria testable? Are the referenced `specs/` files — the repo's normative contracts and invariants, root-level per `.sdlc/repo-structure.md` — complete and current? If the repo has no `specs/` directory at all, say so and proceed on the issue text and code alone; don't invent contracts that don't exist.
+Audit the issue yourself against the current codebase — read the issue, the specs it references, and the affected code (its location is documented in the target repo's own `.sdlc/repo-structure.md`; read that first if unsure). Is it one vertical slice within `implement.max_changed_loc` including tests? Are the Acceptance Criteria testable? Are the referenced `<specs>/` files — the repo's normative contracts and invariants, located per `.sdlc/repo-structure.md` — complete and current? If the repo has no `<specs>/` directory at all, say so and proceed on the issue text and code alone; don't invent contracts that don't exist.
 
 **Feasible** → continue. **Too big or under-specified** → propose a split (or a `/pm` re-slice), tell the user, and **stop**. Run this gate on every issue, including the ones that look small.
 
@@ -98,12 +100,12 @@ A PR nobody comments on skips this step entirely.
 
 ### 9. After the user merges
 - `git worktree remove <implement.worktree_path> 2>/dev/null || true` (idempotent — `/pm`'s post-merge duty removes it too, so either order is safe).
-- Hand off to `/pm` post-merge duty: update the affected `wiki/architecture/` descriptive docs' Current State, close the issue if the PR didn't, remove the worktree, board → Done, unblock dependents.
+- Hand off to `/pm` post-merge duty: update the affected `<pm_docs>/architecture/` descriptive docs' Current State, close the issue if the PR didn't, remove the worktree, board → Done, unblock dependents.
 - Report a one-paragraph summary, including any issues just moved to Ready.
 
 ## Rules
 - One issue per run, unless `batch.md` is driving — then one issue at a time, in dependency order, on one shared branch. Respect `Depends On` either way.
-- Code, tests, and specs are the subagents' work — delegate.
+- Code, tests, specs and user docs are the subagents' work — delegate.
 - The review gate always runs; a PR opens only on a green suite and green gates.
 - Reference cross-repo issues using `owner/repo#N` format (bare `#N` remains legal within the local target repository).
 - Never merge. Stop on any unresolved blocker and report clearly.

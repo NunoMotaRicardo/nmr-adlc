@@ -10,6 +10,8 @@ description: >
 
 A prototype is **throwaway code that answers a question**. The question decides the shape, and the answer is the only thing that survives.
 
+Folder names: `<specs>`, `<pm_docs>` and `<user_docs>` are the repo's folders from the **Folders** table in `.sdlc/repo-structure.md` (defaults `specs`, `docs`, `wiki`; a value may be `none`). If that table is missing, use `specs`, `wiki`, `none` and suggest running the `setup` skill.
+
 ## The worktree
 
 A prototype lives in its **own worktree**, like any other development, and is discarded when it's no longer needed. It never merges to `main`.
@@ -26,7 +28,7 @@ Everything the prototype builds stays on that branch. Because nothing there is b
 
 **What survives the worktree** is only ever an answer, never the code that produced it:
 - **The verdict** → `/pm`, which records it in the work item's detail file.
-- **A validated design** — the chosen UI option, the confirmed state model — → a dated decision record in the target repo's `wiki/architecture/adr/`, through `/pm`, so the decision outlives the branch. Not `specs/`: that stays tied to shipped code and is `/implement`'s territory, updated when the real version is actually built.
+- **A validated design** — the chosen UI option, the confirmed state model — → a dated decision record in the target repo's `<pm_docs>/architecture/adr/`, through `/pm`, so the decision outlives the branch. Not `<specs>/`: that stays tied to shipped code and is `/implement`'s territory, updated when the real version is actually built.
 - **Real code** is written later, from an issue, through `/implement`. Prototype code is never promoted; it was built under prototype constraints and it stays behind.
 
 Keep the worktree while it's still teaching you something. Once it isn't, `git worktree remove <prototype.worktree_path>` and let the branch go.
@@ -43,7 +45,7 @@ The branches produce very different artifacts, so a wrong pick wastes the whole 
 ## Rules for both
 
 1. **One command to run.** A single command from the worktree, e.g. a script or a `Makefile` target. The user starts it without thinking.
-2. **No persistence, and never the real store.** State lives in memory. Where the question genuinely needs stored data, read from a **copy** — whatever read-only backup or scratch data source the target repo's `CLAUDE.md`/`AGENTS.md`/`specs/` names — and never write anywhere into the repo's real data store. The worktree is throwaway; the data isn't.
+2. **No persistence, and never the real store.** State lives in memory. Where the question genuinely needs stored data, read from a **copy** — whatever read-only backup or scratch data source the target repo's `CLAUDE.md`/`AGENTS.md`/`<specs>/` names — and never write anywhere into the repo's real data store. The worktree is throwaway; the data isn't.
 3. **Skip the polish.** No tests, no error handling past what makes it runnable, no abstractions. Learn fast; the branch is going away.
 4. **Surface the state.** After every action, or on every variant switch, show the full relevant state so the change is visible.
 
@@ -51,4 +53,4 @@ The branches produce very different artifacts, so a wrong pick wastes the whole 
 
 Capture the **answer** and the question it answered, and hand both to `/pm`. If the user is around, that's a quick conversation about what the session taught them; if not, leave it in a `NOTES.md` on the branch to be filled in before the worktree goes.
 
-A design the answer settles — the winning UI variant, the validated state model — goes to the target repo's `wiki/architecture/adr/` as a dated decision record, via `/pm`, in the same pass. That's what makes the prototype disposable: once the decision is written down somewhere permanent, the code that produced it has no reason to survive.
+A design the answer settles — the winning UI variant, the validated state model — goes to the target repo's `<pm_docs>/architecture/adr/` as a dated decision record, via `/pm`, in the same pass. That's what makes the prototype disposable: once the decision is written down somewhere permanent, the code that produced it has no reason to survive.

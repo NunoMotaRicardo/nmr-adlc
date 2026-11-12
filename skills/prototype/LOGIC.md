@@ -12,7 +12,7 @@ Before any code, write down the model and the question in one paragraph, at the 
 ## 2. Isolate the logic in its own module
 The bit answering the question goes behind a small, pure interface, separate from the terminal shell that drives it.
 
-Shape it by the question: a **pure function** `(state, action) -> state` when actions are discrete events; an explicit **state machine** when "which actions are even legal now" is part of the question; a **set of pure functions** over a frozen/immutable value type or a dataframe (whatever the target repo's own stack already uses — check `specs/` or existing code, don't introduce a new one) when there's no ongoing state, just transformations; a **class** when the logic genuinely owns internal state.
+Shape it by the question: a **pure function** `(state, action) -> state` when actions are discrete events; an explicit **state machine** when "which actions are even legal now" is part of the question; a **set of pure functions** over a frozen/immutable value type or a dataframe (whatever the target repo's own stack already uses — check `<specs>/` or existing code, don't introduce a new one) when there's no ongoing state, just transformations; a **class** when the logic genuinely owns internal state.
 
 Keep it pure — no I/O, no terminal code, no prints for control flow. The shell imports the module and calls in; nothing flows back the other way. That separation is what lets you read the model as a design rather than as a pile of terminal plumbing — and the design is the only part leaving this branch.
 
@@ -31,11 +31,11 @@ a single command from the worktree, e.g. a script or a `Makefile` target. Put th
 Give the user the command and let them drive. The valuable moments are *"wait, that shouldn't be possible"* and *"huh, I assumed X would be different"* — bugs in the **idea**, which is the entire point. New actions they ask for get added; prototypes evolve.
 
 ## 6. Capture the answer
-Ask what it taught them, and hand that to `/pm` with the question it answered. Running unattended, leave it in `NOTES.md` on the branch. A model the session validates gets written into the target repo's `wiki/architecture/adr/` via `/pm` — that record is what the real implementation is later built from, not this code.
+Ask what it taught them, and hand that to `/pm` with the question it answered. Running unattended, leave it in `NOTES.md` on the branch. A model the session validates gets written into the target repo's `<pm_docs>/architecture/adr/` via `/pm` — that record is what the real implementation is later built from, not this code.
 
 ## Anti-patterns
 - **Tests.** A prototype that needs tests has stopped being a prototype.
-- **The real store.** In-memory, or a read-only copy — never the target repo's real production data (its location and safety rules are in that repo's `CLAUDE.md`/`AGENTS.md`/`specs/`).
+- **The real store.** In-memory, or a read-only copy — never the target repo's real production data (its location and safety rules are in that repo's `CLAUDE.md`/`AGENTS.md`/`<specs>/`).
 - **Generalising.** No "what if we later want X". One question.
 - **Blurring the module into the shell.** A model that prints or prompts can't be read as a design.
-- **Treating the module as a head start.** It goes with the branch. What carries forward is the validated design in `wiki/architecture/adr/`, and the real version gets written from that, through `/implement`.
+- **Treating the module as a head start.** It goes with the branch. What carries forward is the validated design in `<pm_docs>/architecture/adr/`, and the real version gets written from that, through `/implement`.
