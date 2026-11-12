@@ -2,6 +2,8 @@
 
 Drive every open review comment on the PR to a resolved state: each one ends fixed-and-replied or declined-and-replied, and every thread is marked resolved. You run this in the main thread. Code and tests still belong to the coder subagent (`coder.md`). The user merges.
 
+Folder names: `<specs>`, `<pm_docs>` and `<user_docs>` are the repo's folders from the **Folders** table in `.sdlc/repo-structure.md` (defaults `specs`, `docs`, `wiki`; a value may be `none`). If that table is missing, use `specs`, `wiki`, `none` and suggest running the `setup` skill.
+
 ## Inputs
 The PR number and its branch. Two comment sources feed this loop:
 - **Bot reviewers** — the logins listed under `review.bots` in `.sdlc/sdlc-config.yml`. A commenting bot that isn't listed → triage it anyway and offer to add it to the config.
@@ -22,7 +24,7 @@ Use the issue's existing worktree (`implement.worktree_path`) if there is one; o
 
 ## 3. Verify each finding against the code
 Take nothing on the reviewer's word. For each comment:
-- Read the referenced file and enough context around it — calling code, the domain model, the relevant `specs/*.md` contract — to independently confirm the described failure is real.
+- Read the referenced file and enough context around it — calling code, the domain model, the relevant `<specs>/*.md` contract — to independently confirm the described failure is real.
 - Check whether it names a genuinely new defect or an already-accepted pattern used elsewhere in the codebase (a sibling method's convention); that changes the right response.
 - Classify it: **confirmed bug (blocking)**, **confirmed non-blocking** (style, minor robustness, a nitpick), **confirmed but out of scope or unreachable**, or **not a bug** (the reviewer misread the code or spec).
 
@@ -37,14 +39,14 @@ Otherwise batch the blocking findings (plus any non-blocking ones small enough t
 
 Beyond its brief, require of this round:
 - A regression test per fix, named for the behavior it pins (`test_<behavior>_persists_into_<field>`), failing before and passing after.
-- **The docs the fix touches, updated in the same change** — a `specs/*.md` contract or invariant, or a `wiki/architecture/` `Current State` section, that the fix contradicts. Watch the cross-cutting specs and architecture docs no single issue owns (layering rules, a cross-repo contract, the umbrella's system-overview doc); those are the ones that drift.
+- **The docs the fix touches, updated in the same change** — a `<specs>/*.md` contract or invariant, or a `<pm_docs>/architecture/` `Current State` section, that the fix contradicts. Watch the cross-cutting specs and architecture docs no single issue owns (layering rules, a cross-repo contract, the umbrella's system-overview doc); those are the ones that drift.
 
 Then commit describing what was fixed and why (not "address PR comments") and push to the PR's branch.
 
 ## 5. Decide the non-fixes
 For everything out of scope, unreachable, or not a bug, write the reasoning in one paragraph: what the risk actually is, why it doesn't apply now (no code path reaches it, it matches an established pattern, it would deviate from convention for no current benefit), and what would make it worth revisiting.
 
-Confirmed non-blocking findings get that same scrutiny — low severity doesn't make a real issue stop mattering. Before deciding each one, check whether it's already covered: `gh issue list --search "<keyword>"`, the PR description's carry-forward notes, and the `wiki/` planning docs. Already tracked → say so in the reply instead of proposing a duplicate. Real, untracked, and not worth fixing in this PR → carry it into step 8.
+Confirmed non-blocking findings get that same scrutiny — low severity doesn't make a real issue stop mattering. Before deciding each one, check whether it's already covered: `gh issue list --search "<keyword>"`, the PR description's carry-forward notes, and the `<pm_docs>/` planning docs. Already tracked → say so in the reply instead of proposing a duplicate. Real, untracked, and not worth fixing in this PR → carry it into step 8.
 
 ## 6. Reply to every comment
 Inline on each thread, never as a new top-level PR comment:

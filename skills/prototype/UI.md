@@ -41,7 +41,7 @@ Put it in one shared component both sub-shapes reuse.
 Surface the URL and the variant keys. The user flips through when they get to it, and the useful feedback is usually *"the header from B with the sidebar from C"* — that's the actual design they want.
 
 ## 6. Capture the answer
-Once a variant wins, hand which and why to `/pm`, and record the chosen design as a dated decision record in the target repo's `wiki/architecture/adr/` via the same skill — the layout, the information hierarchy, and what the losing variants got wrong. Running unattended, leave it in `NOTES.md` on the branch first.
+Once a variant wins, hand which and why to `/pm`, and record the chosen design as a dated decision record in the target repo's `<pm_docs>/architecture/adr/` via the same skill — the layout, the information hierarchy, and what the losing variants got wrong. Running unattended, leave it in `NOTES.md` on the branch first.
 
 Then the whole worktree goes, winner included. The real page is built later from that decision record, through `/implement`; nothing here is promoted.
 

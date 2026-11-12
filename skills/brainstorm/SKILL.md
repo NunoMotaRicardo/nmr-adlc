@@ -10,10 +10,12 @@ description: >
 
 Interview the user **relentlessly** until the shared understanding is confirmed and the idea has resolved into work items. You walk one decision branch at a time; you write no files. What you return goes to `/pm`, which records it.
 
+Folder names: `<specs>`, `<pm_docs>` and `<user_docs>` are the repo's folders from the **Folders** table in `.sdlc/repo-structure.md` (defaults `specs`, `docs`, `wiki`; a value may be `none`). If that table is missing, use `specs`, `wiki`, `none` and suggest running the `setup` skill.
+
 ## Ground rules
 
 - **One question at a time.** Give your recommended answer first, then ask the user to confirm, correct, or choose an alternative. A question that offers no recommendation makes the user do your thinking.
-- **Look before you ask.** Check whether the answer already sits in nearby code, `wiki/`, the repo's `specs/` (root-level, code-bearing repos only), or the plan's own detail files. Ask the user where to look only when the context isn't discoverable.
+- **Look before you ask.** Check whether the answer already sits in nearby code, `<pm_docs>/`, the repo's `<specs>/`, or the plan's own detail files. Ask the user where to look only when the context isn't discoverable.
 - **Relentless means every branch.** Continue until the user has confirmed each open branch — including the ones that surfaced mid-session. A branch left unasked becomes a surprise during implementation.
 
 ## Two entry points

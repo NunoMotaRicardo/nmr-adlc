@@ -6,7 +6,7 @@ Two entry points that interlock: the post-merge pass runs the triage as its last
 
 After an issue's PR merges:
 1. `git diff` review of what landed.
-2. Update the `Current State` sections of the affected `wiki/architecture/code/*.md` descriptive docs. The repo's normative `specs/*.md` (including `specs/contracts/` if the repo has them) are `/implement`'s own territory, updated in the same PR as the code — verify that happened rather than duplicating it here.
+2. Update the `Current State` sections of the affected `<pm_docs>/architecture/code/*.md` descriptive docs. The repo's normative `<specs>/*.md` (including `<specs>/contracts/` if the repo has them) are `/implement`'s own territory, updated in the same PR as the code — verify that happened rather than duplicating it here. The same goes for `<user_docs>/`: if the change is user-visible and no user-docs page changed, note the gap and open a follow-up issue rather than writing user docs yourself.
 3. Close the issue if the PR didn't: `gh issue close <NNN>`.
 4. Remove the issue's worktree (`implement.worktree_path`, relative to the repo root) and prune stale metadata:
    ```bash
@@ -17,7 +17,7 @@ After an issue's PR merges:
 6. Run the triage below to unblock dependents.
 7. Report a one-paragraph summary, including any issues just moved to Ready.
 
-**Cross-repo contracts and system-overview docs have no single issue owner — check them explicitly.** `/implement` naturally updates the *specs* an issue targets in that repo (including any `specs/contracts/*.md` the change produces or consumes), but system-overview architecture docs (e.g. a `wiki/architecture/code/` overview doc — check `wiki/_Sidebar.md` for its current name; in multi-repo mode, the umbrella's cross-system one) describe the shape *across* modules or repositories, so they drift silently. On every merge, ask: did this change a contract in `specs/contracts/`, or a layer's **public surface** — a new service, model, router/entry surface, or provider/storage/core util, or a new or renamed module? If so, check whether the overview doc's `Current State` needs the same update in this same pass. Flip planned→shipped markers, and delete "planned (#N)" notes once #N has merged.
+**Cross-repo contracts and system-overview docs have no single issue owner — check them explicitly.** `/implement` naturally updates the *specs* an issue targets in that repo (including any `<specs>/contracts/*.md` the change produces or consumes), but system-overview architecture docs (e.g. a `<pm_docs>/architecture/code/` overview doc — check `<pm_docs>/_Sidebar.md` for its current name; in multi-repo mode, the umbrella's cross-system one) describe the shape *across* modules or repositories, so they drift silently. On every merge, ask: did this change a contract in `<specs>/contracts/`, or a layer's **public surface** — a new service, model, router/entry surface, or provider/storage/core util, or a new or renamed module? If so, check whether the overview doc's `Current State` needs the same update in this same pass. Flip planned→shipped markers, and delete "planned (#N)" notes once #N has merged.
 
 ## Backlog triage (on demand, or step 6 above)
 
